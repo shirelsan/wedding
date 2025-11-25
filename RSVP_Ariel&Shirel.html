@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="he" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="אישור הגעה לחתונה של אריאל ושיראל">
+    <title>אישורי הגעה לחתונה של אריאל ושיראל</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="container">
+        <!-- Hero Section -->
+        <div class="hero-section">
+            
+            <button class="scroll-button" onclick="document.getElementById('content').scrollIntoView({behavior: 'smooth'})">
+                אישור הגעה <i class="fas fa-angle-down"></i>
+            </button>
+        </div>
+
+        <!-- Content Section -->
+        <div class="content-section" id="content">
+            <div class="countdown" id="countdown"></div>
+
+            <div class="subtitle">
+                שמחים ונרגשים להזמינכם לחגוג בשמחת ילדינו
+            </div>
+
+            <div class="event-details">
+                <div class="date-main"> יום ראשון - א' טבת התשפ"ו<br>21-12-2025יום</div>
+                
+                <div class="venue-name">גן אירועים ארבע עונות</div>
+                <div class="venue-address">
+                    <i class="fas fa-map-marker-alt"></i> קיבוץ ברור חיל
+                </div>
+            </div>
+        </div>
+
+        <!-- RSVP Section -->
+        <div class="rsvp-section" id="rsvp">
+            <div class="rsvp-title">אישור הגעה</div>
+            <div class="rsvp-subtitle">נשמח לראותכם בין אורחינו</div>
+
+            <form id="rsvpForm" onsubmit="return false;">
+                <div class="form-group">
+                    <div class="form-row">
+                        <input type="text" id="firstName" placeholder="שם פרטי" required>
+                        <span class="form-separator">-</span>
+                        <input type="text" id="lastName" placeholder="שם משפחה" required>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <input type="tel" id="phone" placeholder="מספר נייד" required pattern="[0-9]{10}" maxlength="10">
+                </div>
+
+                <div class="guest-counter-label">בחירת כמות אורחים</div>
+                <div class="guest-counter">
+                    <button type="button" class="counter-btn" onclick="decreaseGuests()">-</button>
+                    <div class="counter-value" id="guestCount">1</div>
+                    <button type="button" class="counter-btn" onclick="increaseGuests()">+</button>
+                </div>
+
+                <div class="submit-buttons">
+                    <button type="button" class="btn btn-success" onclick="submitRSVP(true)">
+                        <i class="fas fa-check"></i> מגיעים
+                    </button>
+                    <button type="button" class="btn btn-danger" onclick="submitRSVP(false)">
+                        <i class="fas fa-times"></i> לא מגיעים
+                    </button>
+                </div>
+            </form>
+        </div>
+
+
+        <!-- Success Message -->
+        <div class="success-message" id="successMessage">
+            <div class="success-icon">🎉</div>
+            <div class="success-title">תודה רבה!</div>
+            <div class="success-text" id="successText">אישור ההגעה נשלח בהצלחה.<br>נתראה בשמחה! 💝</div>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
