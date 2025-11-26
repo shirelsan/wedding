@@ -11,20 +11,20 @@ function decreaseGuests() {
     document.getElementById("guestCount").innerText = guestCount;
 }
 
-// שליחת הטופס ל־Google Apps Script
+// שליחת טופס RSVP
 function submitRSVP(attending) {
     const firstName = document.getElementById("firstName").value.trim();
     const lastName = document.getElementById("lastName").value.trim();
     const phone = document.getElementById("phone").value.trim();
-    const guests = parseInt(document.getElementById("guestCount").innerText, 10);
+    const guests = parseInt(document.getElementById("guestCount").innerText);
 
     if (!firstName || !lastName || !phone) {
         alert("אנא מלא את כל השדות");
         return;
     }
 
-    const url =
-        "https://script.google.com/macros/s/AKfycbwwBoTRzry-IQg6nKDQiXHYmgYHO6ZnyJlP8YJII_ecFQnHjNWZmj1lr4VC6KVLBuwplw/exec" +
+    // ה־URL החדש של ה־Apps Script
+    const url = "https://script.google.com/macros/s/AKfycbxBqlDWduLFBX1LbDTMNrzhT9LQn-i5zGIKhY_FmZXL6PivInAED601uvmX9PDZ938agg/exec" +
         `?firstName=${encodeURIComponent(firstName)}` +
         `&lastName=${encodeURIComponent(lastName)}` +
         `&phone=${encodeURIComponent(phone)}` +
@@ -34,11 +34,11 @@ function submitRSVP(attending) {
     fetch(url)
         .then(response => response.json())
         .then(result => {
-            if(result.result === "success"){
+            if (result.result === "success") {
                 document.getElementById("rsvpForm").style.display = "none";
                 document.getElementById("successMessage").classList.add("active");
             } else {
-                alert("אירעה שגיאה בשליחת הטופס, נסה/י שוב");
+                alert("אירעה שגיאה בשליחת הטופס: " + (result.message || ""));
             }
         })
         .catch(err => {
