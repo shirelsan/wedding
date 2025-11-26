@@ -11,7 +11,7 @@ function decreaseGuests() {
     document.getElementById("guestCount").innerText = guestCount;
 }
 
-// שליחת טופס RSVP
+
 function submitRSVP(attending) {
     const firstName = document.getElementById("firstName").value.trim();
     const lastName = document.getElementById("lastName").value.trim();
@@ -45,4 +45,5 @@ function submitRSVP(attending) {
             console.error("Fetch error:", err);
             alert("אירעה שגיאה בשליחת הטופס, נסה/י שוב");
         });
+
 }
