@@ -1,21 +1,7 @@
-// ספירת אורחים
-let guestCount = 1;
-
-function increaseGuests() {
-    guestCount++;
-    document.getElementById("guestCount").innerText = guestCount;
-}
-
-function decreaseGuests() {
-    if (guestCount > 1) guestCount--;
-    document.getElementById("guestCount").innerText = guestCount;
-}
-
-// שליחת טופס RSVP
 function submitRSVP(attending) {
-    const firstName = document.getElementById("firstName").value.trim();
-    const lastName = document.getElementById("lastName").value.trim();
-    const phone = document.getElementById("phone").value.trim();
+    const firstName = document.getElementById("firstName").value;
+    const lastName = document.getElementById("lastName").value;
+    const phone = document.getElementById("phone").value;
     const guests = guestCount;
 
     if (!firstName || !lastName || !phone) {
@@ -23,33 +9,21 @@ function submitRSVP(attending) {
         return;
     }
 
-    // אנחנו נשלח כ-form-urlencoded כדי להימנע מ-preflight CORS
-    const params = new URLSearchParams();
-    params.append('firstName', firstName);
-    params.append('lastName', lastName);
-    params.append('phone', phone);
-    params.append('guests', guests);
-    params.append('attending', attending ? 'true' : 'false');
+    const url =
+        "https://script.google.com/macros/s/AKfycbwwBoTRzry-IQg6nKDQiXHYmgYHO6ZnyJlP8YJII_ecFQnHjNWZmj1lr4VC6KVLBuwplw/exec" +
+        `?firstName=${encodeURIComponent(firstName)}` +
+        `&lastName=${encodeURIComponent(lastName)}` +
+        `&phone=${encodeURIComponent(phone)}` +
+        `&guests=${guests}` +
+        `&attending=${attending}`;
 
-    fetch("https://script.google.com/macros/s/AKfycbwwBoTRzry-IQg6nKDQiXHYmgYHO6ZnyJlP8YJII_ecFQnHjNWZmj1lr4VC6KVLBuwplw/exec", {
-        method: "POST",
-        headers: {
-            "Content-Type": "application/x-www-form-urlencoded;charset=UTF-8"
-        },
-        body: params.toString()
-    })
-    .then(response => response.json())
-    .then(result => {
-        if (result.result === "success") {
+    fetch(url)
+        .then(() => {
             document.getElementById("rsvpForm").style.display = "none";
             document.getElementById("successMessage").classList.add("active");
-        } else {
-            console.error("Server error:", result);
-            alert("אירעה שגיאה בשליחת הטופס, נסי שוב.");
-        }
-    })
-    .catch(error => {
-        console.error("Fetch error:", error);
-        alert("אירעה שגיאה בשליחת הטופס, נסי שוב.");
-    });
+        })
+        .catch((err) => {
+            console.error("Fetch error:", err);
+            alert("אירעה שגיאה בשליחת הטופס");
+        });
 }
