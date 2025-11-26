@@ -1,3 +1,4 @@
+// ספירת אורחים
 let guestCount = 1;
 
 function increaseGuests() {
@@ -21,12 +22,13 @@ function submitRSVP(attending) {
         return;
     }
 
+    // ה-URL החדש
     const url = "https://script.google.com/macros/s/AKfycbwWXXfE_iIRLVA-25PTVL17kC0buFBubS0te6DqmUdihHukHK3fnt0Huz3SYS-VmlUL/exec" +
-        "?firstName=" + encodeURIComponent(firstName) +
-        "&lastName=" + encodeURIComponent(lastName) +
-        "&phone=" + encodeURIComponent(phone) +
-        "&guests=" + guests +
-        "&attending=" + attending;
+        `?firstName=${encodeURIComponent(firstName)}` +
+        `&lastName=${encodeURIComponent(lastName)}` +
+        `&phone=${encodeURIComponent(phone)}` +
+        `&guests=${guests}` +
+        `&attending=${attending}`;
 
     fetch(url, {
         method: 'GET',
