@@ -13,9 +13,9 @@ function decreaseGuests() {
 
 // שליחת טופס RSVP
 function submitRSVP(attending) {
-    const firstName = document.getElementById("firstName").value;
-    const lastName = document.getElementById("lastName").value;
-    const phone = document.getElementById("phone").value;
+    const firstName = document.getElementById("firstName").value.trim();
+    const lastName = document.getElementById("lastName").value.trim();
+    const phone = document.getElementById("phone").value.trim();
     const guests = guestCount;
 
     if (!firstName || !lastName || !phone) {
@@ -23,17 +23,20 @@ function submitRSVP(attending) {
         return;
     }
 
-    const data = {
-        firstName: firstName,
-        lastName: lastName,
-        phone: phone,
-        guests: guests,
-        attending: attending
-    };
+    // אנחנו נשלח כ-form-urlencoded כדי להימנע מ-preflight CORS
+    const params = new URLSearchParams();
+    params.append('firstName', firstName);
+    params.append('lastName', lastName);
+    params.append('phone', phone);
+    params.append('guests', guests);
+    params.append('attending', attending ? 'true' : 'false');
 
-    fetch("https://script.google.com/macros/s/AKfycbwwBoTRzry-IQg6nKDQiXHYmgYHO6ZnyJlP8YJII_ecFQnHjNWZmj1lr4VC6KVLBuwplw/exec", {  
+    fetch("https://script.google.com/macros/s/AKfycbwwBoTRzry-IQg6nKDQiXHYmgYHO6ZnyJlP8YJII_ecFQnHjNWZmj1lr4VC6KVLBuwplw/exec", {
         method: "POST",
-        body: JSON.stringify(data)
+        headers: {
+            "Content-Type": "application/x-www-form-urlencoded;charset=UTF-8"
+        },
+        body: params.toString()
     })
     .then(response => response.json())
     .then(result => {
@@ -41,11 +44,12 @@ function submitRSVP(attending) {
             document.getElementById("rsvpForm").style.display = "none";
             document.getElementById("successMessage").classList.add("active");
         } else {
-            alert("אירעה שגיאה בשליחת הטופס, נסה שוב.");
+            console.error("Server error:", result);
+            alert("אירעה שגיאה בשליחת הטופס, נסי שוב.");
         }
     })
     .catch(error => {
-        console.error("Error:", error);
-        alert("אירעה שגיאה בשליחת הטופס, נסה שוב.");
+        console.error("Fetch error:", error);
+        alert("אירעה שגיאה בשליחת הטופס, נסי שוב.");
     });
 }
