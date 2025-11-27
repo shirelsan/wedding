@@ -442,3 +442,55 @@ input:focus {
         grid-column: span 1;
     }
 }
+/* כפתורי ניווט */
+.nav-buttons {
+    display: flex;
+    gap: 15px;
+    justify-content: center;
+    margin-top: 20px;
+    flex-wrap: wrap;
+}
+
+.nav-btn {
+    padding: 12px 30px;
+    color: white;
+    text-decoration: none;
+    border-radius: 25px;
+    font-size: 1.1em;
+    font-weight: 600;
+    transition: all 0.3s ease;
+    box-shadow: 0 3px 10px rgba(0, 0, 0, 0.2);
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.nav-btn.waze {
+    background: linear-gradient(135deg, #33ccff 0%, #0099cc 100%);
+}
+
+.nav-btn.google {
+    background: linear-gradient(135deg, #4285f4 0%, #34a853 100%);
+}
+
+.nav-btn:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+}
+
+.nav-btn i {
+    font-size: 1.2em;
+}
+
+/* רספונסיבי למובייל */
+@media (max-width: 768px) {
+    .nav-buttons {
+        flex-direction: column;
+        align-items: stretch;
+    }
+    
+    .nav-btn {
+        width: 100%;
+        justify-content: center;
+    }
+}
