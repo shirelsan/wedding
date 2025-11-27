@@ -34,8 +34,7 @@ function submitRSVP(attending) {
     const originalText = clickedButton.innerHTML;
     clickedButton.innerHTML = '<i class="fas fa-spinner fa-spin"></i> שולח...';
 
-    const url =
-        "YOUR-APPSCRIPT-URL" +
+    const url = "https://script.google.com/macros/s/AKfycbxuO-E1vOaXzrX3x2y2-OhL4F-xn4Ueh5dIQ2nV_wFxdkNIZHxz_oMxTuilhwchhOjU/exec" +
         `?firstName=${encodeURIComponent(firstName)}` +
         `&lastName=${encodeURIComponent(lastName)}` +
         `&notes=${encodeURIComponent(notes)}` +
@@ -60,3 +59,4 @@ function submitRSVP(attending) {
             clickedButton.innerHTML = originalText;
         });
 }
+
