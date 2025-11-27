@@ -12,51 +12,62 @@ function decreaseGuests() {
 }
 
 function submitRSVP(attending) {
-
     const firstName = document.getElementById("firstName").value.trim();
     const lastName = document.getElementById("lastName").value.trim();
-    const notes = document.getElementById("notes").value.trim();
+    const phone = document.getElementById("phone").value.trim();
     const guests = parseInt(document.getElementById("guestCount").innerText);
 
-    if (!firstName || !lastName) {
-        alert("אנא מלא שם פרטי ומשפחה");
+    if (!firstName || !lastName || !phone) {
+        alert("אנא מלא את כל השדות");
         return;
     }
 
-    // כפתורים במצב טעינה
+    // הצגת אינדיקטור טעינה
     const buttons = document.querySelectorAll('.submit-buttons .btn');
     buttons.forEach(btn => {
         btn.disabled = true;
         btn.style.opacity = '0.6';
     });
-
+    
+    // שינוי טקסט הכפתור
     const clickedButton = event.target;
     const originalText = clickedButton.innerHTML;
     clickedButton.innerHTML = '<i class="fas fa-spinner fa-spin"></i> שולח...';
 
-    const url = "https://script.google.com/macros/s/AKfycbxuO-E1vOaXzrX3x2y2-OhL4F-xn4Ueh5dIQ2nV_wFxdkNIZHxz_oMxTuilhwchhOjU/exec" +
+    const url = "https://script.google.com/macros/s/AKfycbwWXXfE_iIRLVA-25PTVL17kC0buFBubS0te6DqmUdihHukHK3fnt0Huz3SYS-VmlUL/exec" +
         `?firstName=${encodeURIComponent(firstName)}` +
         `&lastName=${encodeURIComponent(lastName)}` +
-        `&notes=${encodeURIComponent(notes)}` +
+        `&phone=${encodeURIComponent(phone)}` +
         `&guests=${guests}` +
         `&attending=${attending}`;
 
-    fetch(url, { method: 'GET', redirect: 'follow' })
+    fetch(url, {
+        method: 'GET',
+        redirect: 'follow'
+    })
         .then(response => response.json())
         .then(result => {
             if (result.result === "success") {
                 document.querySelector(".rsvp-section").style.display = "none";
                 document.getElementById("successMessage").classList.add("active");
             } else {
-                alert("שגיאה בשליחה: " + (result.message || ""));
-                buttons.forEach(btn => { btn.disabled = false; btn.style.opacity = '1'; });
+                alert("אירעה שגיאה בשליחת הטופס: " + (result.message || ""));
+                // החזרת הכפתורים למצב רגיל
+                buttons.forEach(btn => {
+                    btn.disabled = false;
+                    btn.style.opacity = '1';
+                });
                 clickedButton.innerHTML = originalText;
             }
         })
         .catch(err => {
-            alert("אירעה שגיאה בעת השליחה. נסה שוב.");
-            buttons.forEach(btn => { btn.disabled = false; btn.style.opacity = '1'; });
+            console.error("Fetch error:", err);
+            alert("אירעה שגיאה בשליחת הטופס, נסה/י שוב");
+            // החזרת הכפתורים למצב רגיל
+            buttons.forEach(btn => {
+                btn.disabled = false;
+                btn.style.opacity = '1';
+            });
             clickedButton.innerHTML = originalText;
         });
 }
-
