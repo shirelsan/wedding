@@ -14,14 +14,15 @@ function decreaseGuests() {
 function submitRSVP(attending) {
     const firstName = document.getElementById("firstName").value.trim();
     const lastName = document.getElementById("lastName").value.trim();
-    const phone = document.getElementById("phone").value.trim();
+    const phone = document.getElementById("phone").value.trim(); // זה עכשיו ההערות
     const guests = parseInt(document.getElementById("guestCount").innerText);
-
-    if (!firstName || !lastName || !phone) {
-        alert("אנא מלא את כל השדות");
+    
+    // בדיקה רק של שם פרטי ושם משפחה - ההערות לא חובה
+    if (!firstName || !lastName) {
+        alert("אנא מלא את שם פרטי ושם משפחה");
         return;
     }
-
+    
     // הצגת אינדיקטור טעינה
     const buttons = document.querySelectorAll('.submit-buttons .btn');
     buttons.forEach(btn => {
@@ -33,14 +34,14 @@ function submitRSVP(attending) {
     const clickedButton = event.target;
     const originalText = clickedButton.innerHTML;
     clickedButton.innerHTML = '<i class="fas fa-spinner fa-spin"></i> שולח...';
-
+    
     const url = "https://script.google.com/macros/s/AKfycbwWXXfE_iIRLVA-25PTVL17kC0buFBubS0te6DqmUdihHukHK3fnt0Huz3SYS-VmlUL/exec" +
         `?firstName=${encodeURIComponent(firstName)}` +
         `&lastName=${encodeURIComponent(lastName)}` +
         `&phone=${encodeURIComponent(phone)}` +
         `&guests=${guests}` +
         `&attending=${attending}`;
-
+    
     fetch(url, {
         method: 'GET',
         redirect: 'follow'
