@@ -494,3 +494,19 @@ input:focus {
         justify-content: center;
     }
 }
+textarea {
+    width: 100%;
+    padding: 15px;
+    border: 2px solid #ddd;
+    border-radius: 5px;
+    font-size: 1.1em;
+    font-family: inherit;
+    transition: border-color 0.3s;
+    resize: vertical;
+    min-height: 80px;
+}
+
+textarea:focus {
+    outline: none;
+    border-color: #5cb85c;
+}
